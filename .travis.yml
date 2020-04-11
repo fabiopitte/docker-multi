@@ -13,6 +13,13 @@ after_success:
     - docker build -t fabiopitte/multi-server ./server
     - docker build -t fabiopitte/multi-worker ./worker
 
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+    - docker push fabiopitte/multi-client
+    - docker push fabiopitte/multi-nginx
+    - docker push fabiopitte/multi-server
+    - docker push fabiopitte/multi-worker
+
 language: generic
 
 dist: xenial
