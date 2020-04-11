@@ -1,0 +1,20 @@
+services:
+    - docker
+
+before_install:
+    - docker build -t fabiopitte/docker-react -f Dockerfile.dev .
+
+script:
+    - docker run -e CI=true fabiopitte/docker-react npm run test
+
+after_success:
+    - docker build -t fabiopitte/multi-client ./client
+    - docker build -t fabiopitte/multi-nginx ./nginx
+    - docker build -t fabiopitte/multi-server ./server
+    - docker build -t fabiopitte/multi-worker ./worker
+
+language: generic
+
+dist: xenial
+
+os: linux
